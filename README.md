@@ -29,59 +29,48 @@
 * **CSS (Presentation):** ความเชี่ยวชาญตั้งแต่ **Flexbox/Grid** สู่การใช้ **Tailwind CSS** เพื่อความรวดเร็ว และการทำ **Responsive Design** ให้รองรับทุกขนาดหน้าจอ
 * **JavaScript (Logic):** เข้าใจลึกซึ้งเรื่อง Asynchronous Programming (Event Loop, Promise, Async/Await) และ DOM Manipulation
 * **TypeScript (Scalability):** กุญแจสำคัญของ Full Stack คือการมี Type Safety ทั้งระบบ ช่วยดักจับ Error ได้ตั้งแต่ตอนเขียนโค้ด (Compile-time) ทำให้ดูแลรักษาโปรเจกต์ขนาดใหญ่ได้ง่าย
-TypeScript Essentials: Syntax & Features
+### TypeScript Essentials: Syntax & Features
 ผมไม่ได้เรียนรู้แค่การใส่ Type แต่เข้าใจวิธีการออกแบบ Data Structure:
 
-Static Typing & Inference:
+* **Static Typing & Inference:**
+    * การประกาศตัวแปรที่ชัดเจน: `let username: string = "Dev";` หรือ `const total: number = 100;`
+    * **Type Inference:** เข้าใจว่า TS ฉลาดพอที่จะรู้ Type เองได้ เช่น `let isDone = false;` (TS รู้ทันทีว่าเป็น boolean) ไม่จำเป็นต้องเขียน Type กำกับทุกที่จนโค้ดรก
+* **Interfaces vs Types:**
+    * ใช้ **Interface** เพื่อกำหนดโครงสร้างของ Object โดยเฉพาะ Data Model จาก Database:
+        ```typescript
+        interface User {
+          id: string;
+          username: string;
+          email?: string; // Optional Property (มีหรือไม่มีก็ได้)
+          role: 'admin' | 'user' | 'guest'; // Union Type (จำกัดค่าที่เป็นไปได้)
+        }
+        ```
+* **Generics (`<T>`):** หัวใจสำคัญของการเขียนโค้ดที่นำกลับมาใช้ใหม่ได้ (Reusable Code) เช่น การสร้าง Response Pattern มาตรฐาน:
+    ```typescript
+    // T สามารถเป็น Type อะไรก็ได้ที่ส่งเข้ามา
+    interface ApiResponse<T> {
+      status: number;
+      message: string;
+      data: T;
+    }
+    // การใช้งาน: ApiResponse<User> หรือ ApiResponse<Product[]>
+    ```
+* **Utility Types:** เครื่องมือช่วยจัดการ Type ที่ใช้บ่อยในงานจริง:
+    * `Partial<User>`: เปลี่ยนทุก property ให้เป็น optional (ใช้ตอนทำฟอร์ม update ข้อมูลที่อาจจะแก้แค่บาง field)
+    * `Pick<User, 'username' | 'email'>`: เลือกเอาเฉพาะบาง field ไปใช้
+    * `Omit<User, 'id'>`: เอาทุก field ยกเว้น id (ใช้ตอนสร้าง user ใหม่ที่ยังไม่มี id)
+* **Async/Await with Types:** การจัดการ Asynchronous ที่ปลอดภัย:
+    ```typescript
+    async function fetchUser(id: string): Promise<User> {
+      // ... logic
+    }
+    ```
 
-การประกาศตัวแปรที่ชัดเจน: let username: string = "Dev"; หรือ const total: number = 100;
+### The Web Foundation
+* **HTML (Structure):** การใช้ **Semantic HTML** (`<main>`, `<article>`, `<section>`) เพื่อให้ AI Bot และ Search Engine (SEO) เข้าใจโครงสร้างข้อมูลได้ดีที่สุด
+* **CSS (Presentation):** ความเชี่ยวชาญตั้งแต่ **Flexbox/Grid** สู่การใช้ **Tailwind CSS** เพื่อความรวดเร็ว และการทำ **Responsive Design** ให้รองรับทุกขนาดหน้าจอ
+* **JavaScript (Logic):** เข้าใจลึกซึ้งเรื่อง Event Loop, DOM Manipulation และ ES6+ Features (Destructuring, Spread Operator)
 
-Type Inference: เข้าใจว่า TS ฉลาดพอที่จะรู้ Type เองได้ เช่น let isDone = false; (TS รู้ทันทีว่าเป็น boolean) ไม่จำเป็นต้องเขียน Type กำกับทุกที่จนโค้ดรก
-
-Interfaces vs Types:
-
-ใช้ Interface เพื่อกำหนดโครงสร้างของ Object โดยเฉพาะ Data Model จาก Database:
-
-TypeScript
-
-interface User {
-  id: string;
-  username: string;
-  email?: string; // Optional Property (มีหรือไม่มีก็ได้)
-  role: 'admin' | 'user' | 'guest'; // Union Type (จำกัดค่าที่เป็นไปได้)
-}
-Generics (<T>): หัวใจสำคัญของการเขียนโค้ดที่นำกลับมาใช้ใหม่ได้ (Reusable Code) เช่น การสร้าง Response Pattern มาตรฐาน:
-
-TypeScript
-
-// T สามารถเป็น Type อะไรก็ได้ที่ส่งเข้ามา
-interface ApiResponse<T> {
-  status: number;
-  message: string;
-  data: T;
-}
-// การใช้งาน: ApiResponse<User> หรือ ApiResponse<Product[]>
-Utility Types: เครื่องมือช่วยจัดการ Type ที่ใช้บ่อยในงานจริง:
-
-Partial<User>: เปลี่ยนทุก property ให้เป็น optional (ใช้ตอนทำฟอร์ม update ข้อมูลที่อาจจะแก้แค่บาง field)
-
-Pick<User, 'username' | 'email'>: เลือกเอาเฉพาะบาง field ไปใช้
-
-Omit<User, 'id'>: เอาทุก field ยกเว้น id (ใช้ตอนสร้าง user ใหม่ที่ยังไม่มี id)
-
-Async/Await with Types: การจัดการ Asynchronous ที่ปลอดภัย:
-
-TypeScript
-
-async function fetchUser(id: string): Promise<User> {
-  // ... logic
-}
-The Web Foundation
-HTML (Structure): การใช้ Semantic HTML (<main>, <article>, <section>) เพื่อให้ AI Bot และ Search Engine (SEO) เข้าใจโครงสร้างข้อมูลได้ดีที่สุด
-
-CSS (Presentation): ความเชี่ยวชาญตั้งแต่ Flexbox/Grid สู่การใช้ Tailwind CSS เพื่อความรวดเร็ว และการทำ Responsive Design ให้รองรับทุกขนาดหน้าจอ
-
-JavaScript (Logic): เข้าใจลึกซึ้งเรื่อง Event Loop, DOM Manipulation และ ES6+ Features (Destructuring, Spread Operator)
 ### UX/UI Design with AI Tools
 
 การออกแบบ Interface ยุคใหม่ที่ทำงานร่วมกับ AI:
